@@ -1,5 +1,12 @@
 source 'https://rubygems.org'
 
+
+gem 'bcrypt-ruby'
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
+gem 'rails-i18n'
+
+
 gem 'will_paginate'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'

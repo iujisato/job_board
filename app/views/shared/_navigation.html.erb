@@ -1,0 +1,28 @@
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Job Ruby App</a>
+      <ul class="nav navbar-nav">
+          <li><%= link_to "English", locale: "en" %></li>
+          <li><%= link_to "Português", locale: "pt-BR" %></li>
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul id="app-menu" class="nav navbar-nav navbar-right">
+      <li class="active">
+          <% if current_company %>
+            <li><a><%= t("menu.logged_as") %> <%= current_company.name %></a></li>
+            <li><%= link_to t("menu.premium_jobs"), root_path %></li>
+            <li><%= link_to t("menu.all_jobs"), jobs_path %></li>
+            <li><%= link_to t("menu.new_job"), new_job_path %></li>
+            <li><%= link_to t("menu.logout"), companies_login_path, method: :delete, confirm: "Are you sure?" %></li>
+          <% else %>
+            <li><%= link_to t("menu.login"), companies_login_path %></li>
+            <li><%= link_to t("menu.new_company"), new_company_path %></li>
+            <li><%= link_to t("menu.premium_jobs"), root_path %></li>
+            <li><%= link_to t("menu.all_jobs"), jobs_path %></li>
+            <li><%= link_to t("menu.hello_world"), hello_world_path %></li>                
+      <% end %>
+    </ul>
+  </div>
+</nav>

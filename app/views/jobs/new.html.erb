@@ -1,5 +1,11 @@
-<h1>New Job</h1>
+<ul class="nav nav-tabs" role="tablist">
+  <li><%= link_to 'View Jobs', jobs_path %></li>
+  <li class="active"><%= link_to 'New Job', new_job_path %></li>
+</ul>
+
+<h3>New Job</h3>
 
 <%= render 'form' %>
 
 <%= link_to 'Back', jobs_path %>
+

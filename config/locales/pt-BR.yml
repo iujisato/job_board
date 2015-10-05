@@ -1,0 +1,46 @@
+pt-BR:
+  activerecord:
+    models:
+      comment: "Comentário"
+    attributes:
+      comment:
+        name: "Nome"
+        body: "Mensagem"
+
+  helpers:
+    submit:
+      comment:
+        create: "Enviar"
+
+  company_mailer:
+    new_comment:
+      subject: "Novo comentário recebido"
+
+  menu:
+    premium_jobs: "Vagas Premium"
+    all_jobs: "Todas as vagas"
+    hello_world: "Hello World"
+    new_job: "Nova vaga"
+    logged_as: "Logado como"
+    new_company: "Nova empresa"
+    login: "Login"
+    logout: "Logout"
+
+  links:
+    edit: "Editar"
+    back: "Voltar"
+    destroy: "Remover"
+    destroy_confirmation: "Tem certeza?"
+
+  comments:
+    count: "comentários"
+    comment:
+      said: "%{name} disse"
+      sent: "Enviado há %{timestamp}"
+
+  jobs:
+    index:
+      listing: "Lista de vagas"
+    show:
+      new_comment: "Envie um novo comentário"
+      comments: "Comentários"

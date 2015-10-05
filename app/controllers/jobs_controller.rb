@@ -1,40 +1,64 @@
 class JobsController < ApplicationController
+  before_filter :authorize_company, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_job, only: [:show, :edit, :update, :destroy]
+
+
+def new_comment(job, comment)
+  @job = job
+  @comment = comment
+  @company = job.company
+
+  mail to: @company.email, subject: "New comment received"
+end
 
   # GET /jobs
   # GET /jobs.json
   def index
-    @jobs = Job.all
+    @jobs = Job.most_recent.includes(:company).paginate(page: params[:page], per_page: 10)
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @jobs }
+    end
   end
 
   def premium
-    @jobs = Job.where(premium: true).most_recent.paginate(page: params[:page], per_page: 10)
+    @jobs = Job.where(premium: true).most_recent.includes(:company).paginate(page: params[:page], per_page: 10)
   end
 
   # GET /jobs/1
   # GET /jobs/1.json
   def show
+     @job = Job.find_by_slug(params[:id])
+     @comments = @job.comments.order('id desc')
+
+     respond_to do |format|
+     format.html # show.html.erb
+     format.json { render json: @job }
+     end
   end
 
   # GET /jobs/new
   def new
-    @job = Job.new
+    @job = current_company.jobs.build
   end
 
   # GET /jobs/1/edit
   def edit
+    @job = current_company.jobs.find(params[:id])
   end
 
   # POST /jobs
   # POST /jobs.json
   def create
-    @job = Job.new(job_params)
+    @job = current_company.jobs.build(job_params)
 
     respond_to do |format|
       if @job.save
-        format.html { redirect_to @job, notice: 'Job was successfully created.' }
+        flash[:success] = 'Job was successfully created.'
+        format.html { redirect_to @job}
         format.json { render :show, status: :created, location: @job }
       else
+        flash[:danger] = 'There was a problem creating the Job.'
         format.html { render :new }
         format.json { render json: @job.errors, status: :unprocessable_entity }
       end
@@ -44,11 +68,14 @@ class JobsController < ApplicationController
   # PATCH/PUT /jobs/1
   # PATCH/PUT /jobs/1.json
   def update
+    @job = current_company.jobs.find(params[:id])
     respond_to do |format|
       if @job.update(job_params)
-        format.html { redirect_to @job, notice: 'Job was successfully updated.' }
+        flash[:success] = 'Job was successfully updated.'
+        format.html { redirect_to @job}
         format.json { render :show, status: :ok, location: @job }
       else
+        flash[:danger] = 'There was a problem updating the Job.'
         format.html { render :edit }
         format.json { render json: @job.errors, status: :unprocessable_entity }
       end
@@ -58,14 +85,23 @@ class JobsController < ApplicationController
   # DELETE /jobs/1
   # DELETE /jobs/1.json
   def destroy
+    @job = current_company.jobs.find(params[:id])
     @job.destroy
     respond_to do |format|
-      format.html { redirect_to jobs_url, notice: 'Job was successfully destroyed.' }
+      flash[:success] = 'Job was successfully deleted.'
+      format.html { redirect_to jobs_url}
       format.json { head :no_content }
     end
   end
 
   private
+    def authorize_company
+      unless current_company
+        redirect_to root_path
+        flash[:danger] = 'You need to login to continue.'
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_job
       @job = Job.find(params[:id])

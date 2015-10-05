@@ -1,4 +1,4 @@
-<h4><%= comment.name %> said:</h4>
-<%= simple_format comment.body %>
-Sent <%= time_ago_in_words comment.created_at %> ago
-<%= link_to "Destroy", comment_path(comment), method: :delete, confirm: "Are you sure?" %>
+<h5><strong><%= t ".said", name: comment.name %>:</strong><h5>
+<h5><%= simple_format comment.body %><h5>
+<h6><i><%= t ".sent", timestamp: time_ago_in_words(comment.created_at) %></i><h6> 
+<%= link_to t("links.destroy"), comment_path(comment), method: :delete, confirm: t("links.destroy_confirmation"), class: 'btn btn-danger btn-xs'%>

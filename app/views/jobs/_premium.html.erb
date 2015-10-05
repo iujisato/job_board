@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><%= link_to 'View Premium jobs', root_path %></li>
+  <li class="active"><%= link_to 'View all jobs', jobs_path %></li>
+  <li><%= link_to new_job_path, class: 'btn btn-success' do %>
+<i class="glyphicon glyphicon-plus"></i> New Job
+<% end %></li>
+</ul>
+
+
+<%= render @jobs %>
+
+<%= will_paginate @jobs %>
+
+<br />
+<%= link_to 'Hello World', hello_world_path %>
+<br>
+<%= link_to 'Premium jobs', root_path %>

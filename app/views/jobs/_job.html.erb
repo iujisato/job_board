@@ -1,10 +1,16 @@
-<h1><%= job_title(job) %></h1>
+<table class="table">
+
+<h3><%= job_title(job) %></h3>
 
 <%= simple_format job.description %>
 
+</table>
+
 <p>
   <%= pluralize(job.comments.size, "comment") %>
-  <%= link_to 'Show', job %> |
-  <%= link_to 'Edit', edit_job_path(job) %> |
-  <%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <%= link_to 'Show', job, class: 'btn btn-primary btn-xs' %> 
+  <% if current_company == job.company %>
+  <%= link_to 'Edit', edit_job_path(job), class: 'btn btn-info btn-xs' %> 
+  <%= link_to 'Destroy', job, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+  <% end %>
 </p>
